@@ -27,20 +27,20 @@ canvas {
 <script>
 const canvas = document.querySelector('canvas')
 const ctx = canvas.getContext('2d')
+ctx.imageSmoothingEnabled = false
 
 let color = 0
 
-const colors = [
-  'white',
-  'gray',
-  'black',
-  'red',
-  'orange',
-  'yellow',
-  'green',
-  'blue',
-  'purple',
-]
+let colors = []
+// Grays
+for (i = 100; i >=0; i-=20) {
+  colors.push('hsl(0,0%,' + i + '%)')
+}
+
+// Rainbow
+for (i = 0; i < 360; i+=20) {
+  colors.push('hsl(' + i + ',80%,60%)')
+}
 
 const chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_?/:@.~!$&'()*+,="
 
@@ -53,13 +53,42 @@ function redraw() {
 
   colors.forEach((color, i) => {
     ctx.fillStyle = color
-    ctx.fillRect(
-      0,
-      i * 20,
-      20,
-      20,
-    )  
+    ctx.strokeStyle = 'hsl(0,0%,20%)'
+    ctx.lineWidth = 1
+    if (i <= 7) {
+      ctx.fillRect(
+        0,
+        0 + i * 20,
+        20,
+        20,
+      )
+      ctx.strokeRect(
+        .5,
+        .5 + i * 20,
+        20,
+        20,
+      )
+    } else {
+      ctx.fillRect(
+        (i - 8) * 20,
+        160,
+        20,
+        20,
+      )
+      ctx.strokeRect(
+        .5 + (i - 8) * 20,
+        .5 + 160,
+        20,
+        19,
+      )
+    }
   })
+  ctx.strokeRect(
+    300.5,
+    160.5,
+    19,
+    19,
+  )
 
   for (x=0; x<13; x++) {
     for (y=0; y<6; y++) {
