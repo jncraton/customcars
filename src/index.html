@@ -28,12 +28,12 @@ canvas {
 const canvas = document.querySelector('canvas')
 const ctx = canvas.getContext('2d')
 
-let color = 'black'
+let color = 0
 
 const colors = [
-  'black',
-  'gray',
   'white',
+  'gray',
+  'black',
   'red',
   'orange',
   'yellow',
@@ -44,7 +44,9 @@ const colors = [
 
 const chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_?/:@.~!$&'()*+,="
 
-location.hash = Array(13*7).join(0)
+if (location.hash.length < 90) {
+  location.hash = '#' + Array(13*7).join(0)
+}
 
 function redraw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -58,6 +60,18 @@ function redraw() {
       20,
     )  
   })
+
+  for (x=0; x<13; x++) {
+    for (y=0; y<7; y++) {
+      ctx.fillStyle = colors[chars.indexOf(location.hash[1 + 13*y + x])]
+      ctx.fillRect(
+        (x+2) * 20,
+        (y+1) * 20,
+        20,
+        20,
+      )    
+    }
+  }
 }
 redraw()
 
@@ -68,15 +82,17 @@ canvas.addEventListener('click', e => {
   y = Math.floor(y / 20)
   console.log(x,y)
   if (x == 0) {
-    color = colors[y]
+    color = y
   } else {
-    ctx.fillStyle = color
-    ctx.fillRect(
-      x * 20,
-      y * 20,
-      20,
-      20,
-    )
+    if (x >= 2 && x <= 14 && y >= 1 && y <= 7) {
+      x -= 2
+      y -= 1
+      let pixels = location.hash.split('')
+      console.log(pixels,chars[color])
+      pixels[1 + 13*y + x] = chars[color]
+      location.hash = pixels.join('')
+      redraw()
+    }
   }
 })
 </script>
