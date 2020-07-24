@@ -32,6 +32,11 @@ ctx.imageSmoothingEnabled = false
 let color = 0
 let scale = 1
 
+const pixel_size = 20
+const im_width = 13
+const im_height = 6
+
+
 let colors = []
 // Grays
 for (i = 100; i >=0; i-=20) {
@@ -46,7 +51,7 @@ for (i = 0; i < 360; i+=20) {
 const chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_?/:@.~!$&'()*+,="
 
 if (location.hash.length < 50) {
-  location.hash = '#' + Array(13*6).join(0)
+  location.hash = '#' + Array(im_width*im_height).join(0)
 }
 
 function redraw() {
@@ -111,45 +116,45 @@ function redraw() {
         ctx.fillStyle = colors[p]
         if (c==a && c!=d && a!=b) ctx.fillStyle = colors[a]
         ctx.fillRect(
-          (x+2) * 20,
-          (y+1) * 20,
-          10,
-          10,
+          (x+2) * pixel_size,
+          (y+1) * pixel_size,
+          pixel_size / 2,
+          pixel_size / 2,
         )    
 
         ctx.fillStyle = colors[p]
         if (a==b && a!=c && b!=d) ctx.fillStyle = colors[b]
         ctx.fillRect(
-          (x+2) * 20 + 10,
-          (y+1) * 20,
-          10,
-          10,
+          (x+2) * pixel_size + pixel_size / 2,
+          (y+1) * pixel_size,
+          pixel_size / 2,
+          pixel_size / 2,
         )    
 
         ctx.fillStyle = colors[p]
         if (d==c && d!=b && c!=a) ctx.fillStyle = colors[c]
         ctx.fillRect(
-          (x+2) * 20,
-          (y+1) * 20 + 10,
-          10,
-          10,
+          (x+2) * pixel_size,
+          (y+1) * pixel_size + pixel_size / 2,
+          pixel_size / 2,
+          pixel_size / 2,
         )    
 
         ctx.fillStyle = colors[p]
         if (b==d && b!=a && d!=c) ctx.fillStyle = colors[d]
         ctx.fillRect(
-          (x+2) * 20 + 10,
-          (y+1) * 20 + 10,
-          10,
-          10,
+          (x+2) * pixel_size + pixel_size / 2,
+          (y+1) * pixel_size + pixel_size / 2,
+          pixel_size / 2,
+          pixel_size / 2,
         )
       } else {
         ctx.fillStyle = colors[getPixel(x,y)]
         ctx.fillRect(
-          (x+2) * 20,
-          (y+1) * 20,
-          20,
-          20,
+          (x+2) * pixel_size,
+          (y+1) * pixel_size,
+          pixel_size,
+          pixel_size,
         )
       }
     }
@@ -159,9 +164,9 @@ redraw()
 
 canvas.addEventListener('click', e => {
   let x = (e.clientX - canvas.getBoundingClientRect().x) * canvas.width / canvas.clientWidth
-  x = Math.floor(x / 20)
+  x = Math.floor(x / pixel_size)
   let y = (e.clientY - canvas.getBoundingClientRect().y) * canvas.height / canvas.clientHeight
-  y = Math.floor(y / 20)
+  y = Math.floor(y / pixel_size)
   if (x == 0) {
     color = y
   } else if (y == 8) {
@@ -171,7 +176,7 @@ canvas.addEventListener('click', e => {
       x -= 2
       y -= 1
       let pixels = location.hash.split('')
-      pixels[1 + 13*y + x] = chars[color]
+      pixels[1 + im_width*y + x] = chars[color]
       location.hash = pixels.join('')
       redraw()
     }
