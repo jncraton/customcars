@@ -44,8 +44,8 @@ const colors = [
 
 const chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_?/:@.~!$&'()*+,="
 
-if (location.hash.length < 90) {
-  location.hash = '#' + Array(13*7).join(0)
+if (location.hash.length < 50) {
+  location.hash = '#' + Array(13*6).join(0)
 }
 
 function redraw() {
@@ -62,7 +62,7 @@ function redraw() {
   })
 
   for (x=0; x<13; x++) {
-    for (y=0; y<7; y++) {
+    for (y=0; y<6; y++) {
       ctx.fillStyle = colors[chars.indexOf(location.hash[1 + 13*y + x])]
       ctx.fillRect(
         (x+2) * 20,
@@ -84,7 +84,7 @@ canvas.addEventListener('click', e => {
   if (x == 0) {
     color = y
   } else {
-    if (x >= 2 && x <= 14 && y >= 1 && y <= 7) {
+    if (x >= 2 && x <= 14 && y >= 1 && y <= 6) {
       x -= 2
       y -= 1
       let pixels = location.hash.split('')
