@@ -30,6 +30,7 @@ const ctx = canvas.getContext('2d')
 ctx.imageSmoothingEnabled = false
 
 let color = 0
+let scale = 1
 
 let colors = []
 // Grays
@@ -91,55 +92,66 @@ function redraw() {
   )
 
   let getPixel = (x,y) => {
-    if (x < 0 || x > 12 || y < 0 || y > 5) return 0
+    x = Math.min(Math.max(0,x), 12)
+    y = Math.min(Math.max(0,y), 5)
     return chars.indexOf(location.hash[1 + 13*y + x])
   }
 
   for (x=0; x<13; x++) {
     for (y=0; y<6; y++) {
-      // Scale2x algorith
-      // https://en.wikipedia.org/wiki/Pixel-art_scaling_algorithms
-      let p = getPixel(x, y)
-      let a = getPixel(x, y-1)
-      let b = getPixel(x+1, y)
-      let c = getPixel(x-1, y)
-      let d = getPixel(x, y+1)
+      if (scale == 2) {
+        // Scale2x algorith
+        // https://en.wikipedia.org/wiki/Pixel-art_scaling_algorithms
+        let p = getPixel(x, y)
+        let a = getPixel(x, y-1)
+        let b = getPixel(x+1, y)
+        let c = getPixel(x-1, y)
+        let d = getPixel(x, y+1)
 
-      ctx.fillStyle = colors[p]
-      if (c==a && c!=d && a!=b) ctx.fillStyle = colors[a]
-      ctx.fillRect(
-        (x+2) * 20,
-        (y+1) * 20,
-        10,
-        10,
-      )    
+        ctx.fillStyle = colors[p]
+        if (c==a && c!=d && a!=b) ctx.fillStyle = colors[a]
+        ctx.fillRect(
+          (x+2) * 20,
+          (y+1) * 20,
+          10,
+          10,
+        )    
 
-      ctx.fillStyle = colors[p]
-      if (a==b && a!=c && b!=d) ctx.fillStyle = colors[b]
-      ctx.fillRect(
-        (x+2) * 20 + 10,
-        (y+1) * 20,
-        10,
-        10,
-      )    
+        ctx.fillStyle = colors[p]
+        if (a==b && a!=c && b!=d) ctx.fillStyle = colors[b]
+        ctx.fillRect(
+          (x+2) * 20 + 10,
+          (y+1) * 20,
+          10,
+          10,
+        )    
 
-      ctx.fillStyle = colors[p]
-      if (d==c && d!=b && c!=a) ctx.fillStyle = colors[c]
-      ctx.fillRect(
-        (x+2) * 20,
-        (y+1) * 20 + 10,
-        10,
-        10,
-      )    
+        ctx.fillStyle = colors[p]
+        if (d==c && d!=b && c!=a) ctx.fillStyle = colors[c]
+        ctx.fillRect(
+          (x+2) * 20,
+          (y+1) * 20 + 10,
+          10,
+          10,
+        )    
 
-      ctx.fillStyle = colors[p]
-      if (b==d && b!=a && d!=c) ctx.fillStyle = colors[d]
-      ctx.fillRect(
-        (x+2) * 20 + 10,
-        (y+1) * 20 + 10,
-        10,
-        10,
-      )    
+        ctx.fillStyle = colors[p]
+        if (b==d && b!=a && d!=c) ctx.fillStyle = colors[d]
+        ctx.fillRect(
+          (x+2) * 20 + 10,
+          (y+1) * 20 + 10,
+          10,
+          10,
+        )
+      } else {
+        ctx.fillStyle = colors[getPixel(x,y)]
+        ctx.fillRect(
+          (x+2) * 20,
+          (y+1) * 20,
+          20,
+          20,
+        )
+      }
     }
   }
 }
@@ -164,6 +176,12 @@ canvas.addEventListener('click', e => {
       redraw()
     }
   }
+})
+
+document.addEventListener('keydown', e => {
+  if (e.key == 1) scale = 1
+  if (e.key == 2) scale = 2
+  redraw()
 })
 </script>
 
