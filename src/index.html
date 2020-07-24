@@ -111,6 +111,8 @@ canvas.addEventListener('click', e => {
   y = Math.floor(y / 20)
   if (x == 0) {
     color = y
+  } else if (y == 8) {
+    color = x + 8
   } else {
     if (x >= 2 && x <= 14 && y >= 1 && y <= 6) {
       x -= 2
