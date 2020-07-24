@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+<title>Custom Cars</title>
+<style>
+* {
+  margin:0;
+  padding:0;
+}
+canvas {
+  width:100%;
+}
+</style>
+</head>
+<body>
+<canvas width=320 height=180></canvas>
+
+<script>
+const canvas = document.querySelector('canvas')
+const ctx = canvas.getContext('2d')
+
+canvas.addEventListener('click', e => {
+  let x = e.clientX * canvas.width / canvas.clientWidth
+  let y = e.clientY * canvas.height / canvas.clientHeight
+  console.log(x,y)
+  ctx.fillRect(
+    Math.floor(x / 20) * 20,
+    Math.floor(y / 20) * 20,
+    20,
+    20,
+  )
+})
+</script>
+
+</body>
+</html>
