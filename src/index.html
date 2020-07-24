@@ -115,7 +115,7 @@ function redraw() {
         let f = getPixel(x+1, y-0)
         let g = getPixel(x-1, y+1)
         let h = getPixel(x-0, y+1)
-        let i = getPixel(x+1, y-0)
+        let i = getPixel(x+1, y+1)
 
         p = Array(10).fill(e)
 
@@ -140,6 +140,18 @@ function redraw() {
                 (y+1) * pixel_size + j * pixel_size / 2,
                 pixel_size / 2,
                 pixel_size / 2,
+              )
+            }
+          }
+        } else if (scale == 3) {
+          for (i = 0; i < 3; i++) {
+            for (j = 0; j < 3; j++) {
+              ctx.fillStyle = colors[p[j*3 + i + 1]]
+              ctx.fillRect(
+                (x+2) * pixel_size + i * pixel_size / 3,
+                (y+1) * pixel_size + j * pixel_size / 3,
+                pixel_size / 3,
+                pixel_size / 3,
               )
             }
           }
