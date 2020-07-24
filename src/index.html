@@ -129,37 +129,20 @@ function redraw() {
         if (f==h && f!=b && h!=d) p[9]=f
 
         if (scale == 2) {
-          ctx.fillStyle = colors[p[1]]
-          ctx.fillRect(
-            (x+2) * pixel_size,
-            (y+1) * pixel_size,
-            pixel_size / 2,
-            pixel_size / 2,
-          )    
-
-          ctx.fillStyle = colors[p[3]]
-          ctx.fillRect(
-            (x+2) * pixel_size + pixel_size / 2,
-            (y+1) * pixel_size,
-            pixel_size / 2,
-            pixel_size / 2,
-          )    
-
-          ctx.fillStyle = colors[p[7]]
-          ctx.fillRect(
-            (x+2) * pixel_size,
-            (y+1) * pixel_size + pixel_size / 2,
-            pixel_size / 2,
-            pixel_size / 2,
-          )    
-
-          ctx.fillStyle = colors[p[9]]
-          ctx.fillRect(
-            (x+2) * pixel_size + pixel_size / 2,
-            (y+1) * pixel_size + pixel_size / 2,
-            pixel_size / 2,
-            pixel_size / 2,
-          )
+          let subpixels = [[p[1], p[3]],
+                           [p[7], p[9]]]
+        
+          for (i = 0; i < 2; i++) {
+            for (j = 0; j < 2; j++) {
+              ctx.fillStyle = colors[subpixels[j][i]]
+              ctx.fillRect(
+                (x+2) * pixel_size + i * pixel_size / 2,
+                (y+1) * pixel_size + j * pixel_size / 2,
+                pixel_size / 2,
+                pixel_size / 2,
+              )
+            }
+          }
         }
       } else {
         ctx.fillStyle = colors[getPixel(x,y)]
