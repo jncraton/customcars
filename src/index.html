@@ -104,50 +104,63 @@ function redraw() {
 
   for (x=0; x<im_width; x++) {
     for (y=0; y<im_height; y++) {
-      if (scale == 2) {
-        // Scale2x algorith
+      if (scale == 2 || scale == 3) {
+        // Scale3x algorith
         // https://en.wikipedia.org/wiki/Pixel-art_scaling_algorithms
-        let p = getPixel(x, y)
-        let a = getPixel(x, y-1)
-        let b = getPixel(x+1, y)
-        let c = getPixel(x-1, y)
-        let d = getPixel(x, y+1)
+        let a = getPixel(x-1, y-1)
+        let b = getPixel(x-0, y-1)
+        let c = getPixel(x+1, y-1)
+        let d = getPixel(x-1, y-0)
+        let e = getPixel(x-0, y-0)
+        let f = getPixel(x+1, y-0)
+        let g = getPixel(x-1, y+1)
+        let h = getPixel(x-0, y+1)
+        let i = getPixel(x+1, y-0)
 
-        ctx.fillStyle = colors[p]
-        if (c==a && c!=d && a!=b) ctx.fillStyle = colors[a]
-        ctx.fillRect(
-          (x+2) * pixel_size,
-          (y+1) * pixel_size,
-          pixel_size / 2,
-          pixel_size / 2,
-        )    
+        p = Array(10).fill(e)
 
-        ctx.fillStyle = colors[p]
-        if (a==b && a!=c && b!=d) ctx.fillStyle = colors[b]
-        ctx.fillRect(
-          (x+2) * pixel_size + pixel_size / 2,
-          (y+1) * pixel_size,
-          pixel_size / 2,
-          pixel_size / 2,
-        )    
+        if (d==b && d!=h && b!=f) p[1]=d
+        if ((d==b && d!=h && b!=f && e!=c) || (b==f && b!=d && f!=h && e!=a)) p[2]=b
+        if (b==f && b!=d && f!=h) p[3]=f
+        if ((h==d && h!=f && d!=b && e!=a) || (d==b && d!=h && b!=f && e!=g)) p[4]=d
+        if ((b==f && b!=d && f!=h && e!=i) || (f==h && f!=b && h!=d && e!=c)) p[6]=f
+        if (h==d && h!=f && d!=b) p[7]=d
+        if ((f==h && f!=b && h!=d && e!=g) || (h==d && h!=f && d!=b && e!=i)) p[8]=h
+        if (f==h && f!=b && h!=d) p[9]=f
 
-        ctx.fillStyle = colors[p]
-        if (d==c && d!=b && c!=a) ctx.fillStyle = colors[c]
-        ctx.fillRect(
-          (x+2) * pixel_size,
-          (y+1) * pixel_size + pixel_size / 2,
-          pixel_size / 2,
-          pixel_size / 2,
-        )    
+        if (scale == 2) {
+          ctx.fillStyle = colors[p[1]]
+          ctx.fillRect(
+            (x+2) * pixel_size,
+            (y+1) * pixel_size,
+            pixel_size / 2,
+            pixel_size / 2,
+          )    
 
-        ctx.fillStyle = colors[p]
-        if (b==d && b!=a && d!=c) ctx.fillStyle = colors[d]
-        ctx.fillRect(
-          (x+2) * pixel_size + pixel_size / 2,
-          (y+1) * pixel_size + pixel_size / 2,
-          pixel_size / 2,
-          pixel_size / 2,
-        )
+          ctx.fillStyle = colors[p[3]]
+          ctx.fillRect(
+            (x+2) * pixel_size + pixel_size / 2,
+            (y+1) * pixel_size,
+            pixel_size / 2,
+            pixel_size / 2,
+          )    
+
+          ctx.fillStyle = colors[p[7]]
+          ctx.fillRect(
+            (x+2) * pixel_size,
+            (y+1) * pixel_size + pixel_size / 2,
+            pixel_size / 2,
+            pixel_size / 2,
+          )    
+
+          ctx.fillStyle = colors[p[9]]
+          ctx.fillRect(
+            (x+2) * pixel_size + pixel_size / 2,
+            (y+1) * pixel_size + pixel_size / 2,
+            pixel_size / 2,
+            pixel_size / 2,
+          )
+        }
       } else {
         ctx.fillStyle = colors[getPixel(x,y)]
         ctx.fillRect(
@@ -197,6 +210,7 @@ canvas.addEventListener('mousemove', (e) => {
 document.addEventListener('keydown', e => {
   if (e.key == 1) scale = 1
   if (e.key == 2) scale = 2
+  if (e.key == 3) scale = 3
   redraw()
 })
 </script>
