@@ -162,7 +162,7 @@ function redraw() {
 }
 redraw()
 
-canvas.addEventListener('click', e => {
+function setPixel(e) {
   let x = (e.clientX - canvas.getBoundingClientRect().x) * canvas.width / canvas.clientWidth
   x = Math.floor(x / pixel_size)
   let y = (e.clientY - canvas.getBoundingClientRect().y) * canvas.height / canvas.clientHeight
@@ -181,7 +181,18 @@ canvas.addEventListener('click', e => {
       redraw()
     }
   }
+}
+
+canvas.addEventListener('click', setPixel)
+
+let drawing = false
+
+canvas.addEventListener('mousedown', () => drawing=true)
+canvas.addEventListener('mouseup', () => drawing=false)
+canvas.addEventListener('mousemove', (e) => {
+  if (drawing) setPixel(e)
 })
+
 
 document.addEventListener('keydown', e => {
   if (e.key == 1) scale = 1
