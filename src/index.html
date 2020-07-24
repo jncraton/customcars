@@ -34,8 +34,8 @@ let color = 0
 let scale = 3
 
 const pixel_size = 18
-const im_width = 17
-const im_height = 7
+const im_width = 19
+const im_height = 9
 
 
 let colors = []
@@ -137,8 +137,8 @@ function redraw() {
             for (j = 0; j < 2; j++) {
               ctx.fillStyle = colors[subpixels[j][i]]
               ctx.fillRect(
-                (x+2) * pixel_size + i * pixel_size / 2,
-                (y+1) * pixel_size + j * pixel_size / 2,
+                1 + (x+1) * pixel_size + i * pixel_size / 2,
+                (y+0) * pixel_size + j * pixel_size / 2,
                 pixel_size / 2,
                 pixel_size / 2,
               )
@@ -149,8 +149,8 @@ function redraw() {
             for (j = 0; j < 3; j++) {
               ctx.fillStyle = colors[p[j*3 + i + 1]]
               ctx.fillRect(
-                (x+2) * pixel_size + i * pixel_size / 3,
-                (y+1) * pixel_size + j * pixel_size / 3,
+                1 + (x+1) * pixel_size + i * pixel_size / 3,
+                (y+0) * pixel_size + j * pixel_size / 3,
                 pixel_size / 3,
                 pixel_size / 3,
               )
@@ -160,8 +160,8 @@ function redraw() {
       } else {
         ctx.fillStyle = colors[getPixel(x,y)]
         ctx.fillRect(
-          (x+2) * pixel_size,
-          (y+1) * pixel_size,
+          1 + (x+1) * pixel_size,
+          (y+0) * pixel_size,
           pixel_size,
           pixel_size,
         )
@@ -181,8 +181,7 @@ function setPixel(e) {
   } else if (y == 9) {
     color = x + 9
   } else {
-    x -= 2
-    y -= 1
+    x -= 1
     if (x >= 0 && x < im_width && y >= 0 && y < im_height) {
       let pixels = location.hash.split('')
       pixels[1 + im_width*y + x] = chars[color]
