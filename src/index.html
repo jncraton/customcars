@@ -55,15 +55,14 @@ if (location.hash.length < 50) {
   location.hash = '#' + Array(im_width*im_height).join(0)
 }
 
+function getPixel(x,y) {
+  x = Math.min(Math.max(0,x), im_width - 1)
+  y = Math.min(Math.max(0,y), im_height - 1)
+  return chars.indexOf(location.hash[1 + im_width*y + x])
+}
+
 function redraw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-
-  let getPixel = (x,y) => {
-    x = Math.min(Math.max(0,x), im_width - 1)
-    y = Math.min(Math.max(0,y), im_height - 1)
-    return chars.indexOf(location.hash[1 + im_width*y + x])
-  }
 
   for (x=0; x<im_width; x++) {
     for (y=0; y<im_height; y++) {
@@ -174,11 +173,16 @@ function redraw() {
 }
 redraw()
 
-function setPixel(e) {
+function getCanvasPos(e) {
   let x = (e.clientX - canvas.getBoundingClientRect().x) * canvas.width / canvas.clientWidth
   x = Math.floor(x / pixel_size)
   let y = (e.clientY - canvas.getBoundingClientRect().y) * canvas.height / canvas.clientHeight
   y = Math.floor(y / pixel_size)
+  return [x,y]
+}
+
+function setPixel(e) {
+  let [x, y] = getCanvasPos(e)
   if (x == 0 && e.type != 'mousemove') {
     color = y
   } else if (y == 9 && e.type != 'mousemove') {
@@ -204,6 +208,13 @@ canvas.addEventListener('mousemove', (e) => {
   if (drawing) setPixel(e)
 })
 
+// Pick color from drawing
+canvas.addEventListener('contextmenu', e => {
+  let [x, y] = getCanvasPos(e)
+  x-=1
+  color = getPixel(x,y)
+  e.preventDefault()
+})
 
 document.addEventListener('keydown', e => {
   if (e.key == 1) scale = 1
