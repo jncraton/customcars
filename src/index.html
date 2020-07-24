@@ -109,7 +109,6 @@ canvas.addEventListener('click', e => {
   x = Math.floor(x / 20)
   let y = (e.clientY - canvas.getBoundingClientRect().y) * canvas.height / canvas.clientHeight
   y = Math.floor(y / 20)
-  console.log(x,y)
   if (x == 0) {
     color = y
   } else {
@@ -117,7 +116,6 @@ canvas.addEventListener('click', e => {
       x -= 2
       y -= 1
       let pixels = location.hash.split('')
-      console.log(pixels,chars[color])
       pixels[1 + 13*y + x] = chars[color]
       location.hash = pixels.join('')
       redraw()
