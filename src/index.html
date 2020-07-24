@@ -10,7 +10,7 @@
   padding:0;
 }
 html,body {
-  width:80vw;
+  width:90vw;
   height:45vw;
   margin: 0 auto;
 }
@@ -22,7 +22,7 @@ canvas {
 </style>
 </head>
 <body>
-<canvas width=320 height=180></canvas>
+<canvas width=360 height=180></canvas>
 
 <script>
 const canvas = document.querySelector('canvas')
@@ -32,19 +32,19 @@ ctx.imageSmoothingEnabled = false
 let color = 0
 let scale = 1
 
-const pixel_size = 20
-const im_width = 13
-const im_height = 6
+const pixel_size = 18
+const im_width = 17
+const im_height = 7
 
 
 let colors = []
 // Grays
-for (i = 100; i >=0; i-=20) {
+for (i = 100; i >=0; i-=25) {
   colors.push('hsl(0,0%,' + i + '%)')
 }
 
 // Rainbow
-for (i = 0; i < 360; i+=20) {
+for (i = 0; i < 360; i+=15) {
   colors.push('hsl(' + i + ',80%,60%)')
 }
 
@@ -61,49 +61,49 @@ function redraw() {
     ctx.fillStyle = color
     ctx.strokeStyle = 'hsl(0,0%,20%)'
     ctx.lineWidth = 1
-    if (i <= 7) {
+    if (i <= 8) {
       ctx.fillRect(
         0,
-        0 + i * 20,
-        20,
-        20,
+        0 + i * pixel_size,
+        pixel_size,
+        pixel_size,
       )
       ctx.strokeRect(
         .5,
-        .5 + i * 20,
-        20,
-        20,
+        .5 + i * pixel_size,
+        pixel_size,
+        pixel_size,
       )
     } else {
       ctx.fillRect(
-        (i - 8) * 20,
-        160,
-        20,
-        20,
+        (i - 9) * pixel_size,
+        canvas.height - pixel_size,
+        pixel_size,
+        pixel_size,
       )
       ctx.strokeRect(
-        .5 + (i - 8) * 20,
-        .5 + 160,
-        20,
-        19,
+        .5 + (i - 9) * pixel_size,
+        .5 + canvas.height - pixel_size,
+        pixel_size,
+        pixel_size - 1,
       )
     }
   })
   ctx.strokeRect(
-    300.5,
-    160.5,
-    19,
-    19,
+    canvas.width - pixel_size + .5,
+    canvas.height - pixel_size + .5,
+    pixel_size - 1,
+    pixel_size - 1,
   )
 
   let getPixel = (x,y) => {
-    x = Math.min(Math.max(0,x), 12)
-    y = Math.min(Math.max(0,y), 5)
-    return chars.indexOf(location.hash[1 + 13*y + x])
+    x = Math.min(Math.max(0,x), im_width - 1)
+    y = Math.min(Math.max(0,y), im_height - 1)
+    return chars.indexOf(location.hash[1 + im_width*y + x])
   }
 
-  for (x=0; x<13; x++) {
-    for (y=0; y<6; y++) {
+  for (x=0; x<im_width; x++) {
+    for (y=0; y<im_height; y++) {
       if (scale == 2) {
         // Scale2x algorith
         // https://en.wikipedia.org/wiki/Pixel-art_scaling_algorithms
@@ -169,12 +169,12 @@ canvas.addEventListener('click', e => {
   y = Math.floor(y / pixel_size)
   if (x == 0) {
     color = y
-  } else if (y == 8) {
-    color = x + 8
+  } else if (y == 9) {
+    color = x + 9
   } else {
-    if (x >= 2 && x <= 14 && y >= 1 && y <= 6) {
-      x -= 2
-      y -= 1
+    x -= 2
+    y -= 1
+    if (x >= 0 && x < im_width && y >= 0 && y < im_height) {
       let pixels = location.hash.split('')
       pixels[1 + im_width*y + x] = chars[color]
       location.hash = pixels.join('')
