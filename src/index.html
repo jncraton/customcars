@@ -179,9 +179,9 @@ function setPixel(e) {
   x = Math.floor(x / pixel_size)
   let y = (e.clientY - canvas.getBoundingClientRect().y) * canvas.height / canvas.clientHeight
   y = Math.floor(y / pixel_size)
-  if (x == 0) {
+  if (x == 0 && e.type != 'mousemove') {
     color = y
-  } else if (y == 9) {
+  } else if (y == 9 && e.type != 'mousemove') {
     color = x + 9
   } else {
     x -= 1
