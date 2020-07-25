@@ -171,19 +171,19 @@ function redraw() {
     ctx.beginPath()
     ctx.moveTo(0, 100)
     for (x = Math.floor(xpos / 20) * 20; x <= xpos + canvas.width + 20; x+=20) {
-      ctx.lineTo(x-xpos, 120 + 
-        10*Math.sin(x/(.17 * Math.PI*180)) +
-        20*Math.sin(x/(.13 * Math.PI*180)) +
-        10*Math.sin(x/(.07 * Math.PI*180)) +
-        3*Math.sin(x/(.03 * Math.PI*180))
-      )
+      ctx.lineTo(x-xpos, track(x))
     }
     ctx.lineTo(canvas.width,canvas.height)
     ctx.lineTo(0,canvas.height)
     ctx.fillStyle='gray'
     ctx.fill()
 
-    ctx.drawImage(car, 50, 50)
+    ctx.drawImage(car, 50,
+      6 + - im_height*6 + Math.min(
+        track(xpos+50) ,
+        track(xpos+50+im_width*6),
+      )
+    )
 
     xpos += 5
     requestAnimationFrame(redraw)
@@ -198,6 +198,16 @@ function redraw() {
   )
 }
 redraw()
+
+function track_mountains(x) {
+  return 120 + 
+    10*Math.sin(x/(.17 * Math.PI*180)) +
+    20*Math.sin(x/(.13 * Math.PI*180)) +
+    10*Math.sin(x/(.07 * Math.PI*180)) +
+    3*Math.sin(x/(.03 * Math.PI*180))
+}
+
+let track = track_mountains
 
 function getCanvasPos(e) {
   let x = (e.clientX - canvas.getBoundingClientRect().x) * canvas.width / canvas.clientWidth
