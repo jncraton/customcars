@@ -168,6 +168,36 @@ function redraw() {
       }
     })
   } else if (state == 'drive') {
+    // Sky
+    let gradient = ctx.createLinearGradient(0,0,0,canvas.height)
+    gradient.addColorStop(0, 'hsl(200,50%,50%)')
+    gradient.addColorStop(1, 'hsl(200,50%,100%)')
+    ctx.fillStyle = gradient
+    ctx.fillRect(0,0,canvas.width,canvas.height)
+
+    ctx.beginPath()
+    ctx.moveTo(0, 100)
+    for (x = Math.floor(xpos / 4/ 20) * 20; x <= xpos / 4 + canvas.width + 20; x+=20) {
+      ctx.lineTo(x-xpos/4, track(x) - 25)
+    }
+    ctx.lineTo(canvas.width,canvas.height)
+    ctx.lineTo(0,canvas.height)
+    //let mountain_grad = ctx.createLinearGradient(0,0,0,canvas.height)
+    //mountain_grad.addColorStop(0, 'hsl(0,0%,50%)')
+    //mountain_grad.addColorStop(1, 'hsl(0,0%,100%)')
+    ctx.fillStyle='hsl(0, 0%, 90%)'
+    ctx.fill()
+
+    ctx.beginPath()
+    ctx.moveTo(0, 100)
+    for (x = Math.floor(xpos / 2/ 20) * 20; x <= xpos / 2 + canvas.width + 20; x+=20) {
+      ctx.lineTo(x-xpos/2, track(x) - 25)
+    }
+    ctx.lineTo(canvas.width,canvas.height)
+    ctx.lineTo(0,canvas.height)
+    ctx.fillStyle='hsl(0, 0%, 70%)'
+    ctx.fill()
+
     ctx.beginPath()
     ctx.moveTo(0, 100)
     for (x = Math.floor(xpos / 20) * 20; x <= xpos + canvas.width + 20; x+=20) {
@@ -175,7 +205,7 @@ function redraw() {
     }
     ctx.lineTo(canvas.width,canvas.height)
     ctx.lineTo(0,canvas.height)
-    ctx.fillStyle='gray'
+    ctx.fillStyle='hsl(0, 0%, 50%)'
     ctx.fill()
 
     ctx.drawImage(car, 50,
