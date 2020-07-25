@@ -65,7 +65,7 @@ let state = 'drive'
 let xpos = 0
 
 function redraw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
 
   if (state=='edit') {
     for (x=0; x<im_width; x++) {
@@ -167,17 +167,23 @@ function redraw() {
       }
     })
   } else if (state == 'drive') {
+    ctx.beginPath()
     ctx.moveTo(0, 100)
-    for (x = xpos; x <= xpos + canvas.width; x+=20) {
-      ctx.lineTo(x, 100 + 
-        20*Math.sin(x/(.17 * Math.PI*180)) +
+    for (x = Math.floor(xpos / 20) * 20; x <= xpos + canvas.width + 20; x+=20) {
+      ctx.lineTo(x-xpos, 120 + 
+        10*Math.sin(x/(.17 * Math.PI*180)) +
         20*Math.sin(x/(.13 * Math.PI*180)) +
-        10*Math.sin(x/(.07 * Math.PI*180))
+        10*Math.sin(x/(.07 * Math.PI*180)) +
+        3*Math.sin(x/(.03 * Math.PI*180))
       )
     }
     ctx.lineTo(canvas.width,canvas.height)
     ctx.lineTo(0,canvas.height)
+    ctx.fillStyle='gray'
     ctx.fill()
+
+    xpos += 5
+    requestAnimationFrame(redraw)
   }
 
   // Outer border
