@@ -285,10 +285,10 @@ document.addEventListener('keydown', e => {
         0, 0,
         im_width*6, im_height*6)
     }
-    xpos = 0
+    xpos = 500 + 5000 * Math.random()
     track = {
       fn: track_mountains,
-      scale: .25 + .75 * Math.random(),
+      scale: .10 + .90 * Math.random(),
       fg_h: 0,
       fg_s: 0,
       bg_hsl1: 'hsl(200,50%,50%)',
