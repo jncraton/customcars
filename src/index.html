@@ -171,7 +171,7 @@ function redraw() {
     // Background
     let gradient = ctx.createLinearGradient(0,0,0,canvas.height)
     gradient.addColorStop(0, track.bg_hsl1)
-    gradient.addColorStop(1, track.bg_hsl2)
+    gradient.addColorStop(track.bg_step, track.bg_hsl2)
     ctx.fillStyle = gradient
     ctx.fillRect(0,0,canvas.width,canvas.height)
 
@@ -291,8 +291,26 @@ document.addEventListener('keydown', e => {
       scale: .10 + .90 * Math.random(),
       fg_h: 0,
       fg_s: 0,
-      bg_hsl1: 'hsl(200,50%,50%)',
-      bg_hsl2: 'hsl(200,50%,100%)',
+    }
+    switch (Math.floor(Math.random() * 3)) {
+      case 0:
+        track.bg_step = .5,
+        track.bg_hsl1 = 'hsl(200,50%,50%)'
+        track.bg_hsl2 = 'hsl(200,50%,100%)'
+        break;
+      case 1:
+        track.bg_hsl1 = 'hsl(200,50%,50%)'
+        track.bg_hsl2 = 'hsl(25,95%,50%)'
+        track.bg_step = .3
+        break;
+      case 2:
+        track.bg_step = .4,
+        track.bg_hsl1 = 'hsl(260,96%,0%)'
+        track.bg_hsl2 = 'hsl(260,96%,33%)'
+        break;
+    }
+    
+    if (Math.random() > .3) {
     }
     state = 'drive'
   }
