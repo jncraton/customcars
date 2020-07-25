@@ -202,7 +202,7 @@ function redraw() {
       )
     )
 
-    xpos += 5
+    xpos += track.speed * 20
   }
 
   // Outer border
@@ -289,7 +289,8 @@ document.addEventListener('keydown', e => {
     track = {
       fn: track_mountains,
       scale: .10 + .90 * Math.random(),
-      parallax_levels: 3 + Math.floor(Math.random() * 3)
+      parallax_levels: 3 + Math.floor(Math.random() * 3),
+      speed: Math.random(),
     }
     switch (Math.floor(Math.random() * 3)) {
       case 0:
