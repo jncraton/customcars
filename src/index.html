@@ -197,13 +197,11 @@ function redraw() {
     // Car
     ctx.drawImage(car, 50,
       6 + - im_height*6 + Math.min(
-        track.fn(xpos+50, track.scale) ,
         track.fn(xpos+50+im_width*1, track.scale),
         track.fn(xpos+50+im_width*2, track.scale),
         track.fn(xpos+50+im_width*3, track.scale),
         track.fn(xpos+50+im_width*4, track.scale),
         track.fn(xpos+50+im_width*5, track.scale),
-        track.fn(xpos+50+im_width*6, track.scale),
       )
     )
 
