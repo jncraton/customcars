@@ -185,7 +185,7 @@ function redraw() {
       ctx.lineTo(canvas.width,canvas.height)
       ctx.lineTo(0,canvas.height)
       let mountain_grad = ctx.createLinearGradient(0,0,0,canvas.height)
-      let color = track.fg_h + ',' + track.fg_s + '%,'
+      let color = track.fg_h + ',' + track.fg_s / scale + '%,'
       mountain_grad.addColorStop(0, 'hsl(' + color + '100%)')
       mountain_grad.addColorStop(.1, 'hsl(' + color + '100%)')
       mountain_grad.addColorStop(.3, 'hsl(' + color + lightness + '%)')
@@ -289,8 +289,6 @@ document.addEventListener('keydown', e => {
     track = {
       fn: track_mountains,
       scale: .10 + .90 * Math.random(),
-      fg_h: 0,
-      fg_s: 0,
     }
     switch (Math.floor(Math.random() * 3)) {
       case 0:
@@ -307,6 +305,21 @@ document.addEventListener('keydown', e => {
         track.bg_step = .4,
         track.bg_hsl1 = 'hsl(260,96%,0%)'
         track.bg_hsl2 = 'hsl(260,96%,33%)'
+        break;
+    }
+
+    switch (Math.floor(Math.random() * 3)) {
+      case 0:
+        track.fg_h = 0
+        track.fg_s = 0
+        break;
+      case 1:
+        track.fg_h = 120
+        track.fg_s = 90
+        break;
+      case 2:
+        track.fg_h = 30
+        track.fg_s = 60
         break;
     }
     
