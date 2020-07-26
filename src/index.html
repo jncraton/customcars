@@ -37,7 +37,7 @@ let scale = 1
 let player = {
   x:0,
   y:0,
-  dx:0,
+  dx:5,
   dy:0,
   m:1200,
 }
@@ -246,7 +246,10 @@ function redraw() {
       }
     }
 
-    player.x += track.speed * 10
+    // Physics
+    player.dx = player.dx * .99
+    player.x += player.dx
+    player.y += player.yx
   }
 
   // Outer border
