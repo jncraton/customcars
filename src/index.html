@@ -32,8 +32,15 @@ ctx.imageSmoothingEnabled = false
 
 let color = 0
 let state = 'edit'
-let xpos = 0
 let scale = 1
+
+let player = {
+  x:0,
+  y:0,
+  dx:0,
+  dy:0,
+  m:1200,
+}
 
 const pixel_size = 18
 const im_width = 19
@@ -179,8 +186,8 @@ function redraw() {
     ;[[16,75,60], [8,70,45], [4,65,30],[2,60,15],[1,50,0]].slice(5-track.parallax_levels).forEach(([scale, lightness, offset]) => {
       ctx.beginPath()
       ctx.moveTo(0, 100)
-      for (x = Math.floor(xpos / scale / 20) * 20; x <= xpos / scale + canvas.width + 20; x+=20) {
-        ctx.lineTo(x-xpos/scale, track.fn(x, track.scale) - offset)
+      for (x = Math.floor(player.x / scale / 20) * 20; x <= player.x / scale + canvas.width + 20; x+=20) {
+        ctx.lineTo(x-player.x/scale, track.fn(x, track.scale) - offset)
       }
       ctx.lineTo(canvas.width,canvas.height)
       ctx.lineTo(0,canvas.height)
@@ -197,32 +204,32 @@ function redraw() {
     // Car
     ctx.drawImage(car, 50,
       6 + - im_height*6 + Math.min(
-        track.fn(xpos+50+im_width*1, track.scale),
-        track.fn(xpos+50+im_width*2, track.scale),
-        track.fn(xpos+50+im_width*3, track.scale),
-        track.fn(xpos+50+im_width*4, track.scale),
-        track.fn(xpos+50+im_width*5, track.scale),
+        track.fn(player.x+50+im_width*1, track.scale),
+        track.fn(player.x+50+im_width*2, track.scale),
+        track.fn(player.x+50+im_width*3, track.scale),
+        track.fn(player.x+50+im_width*4, track.scale),
+        track.fn(player.x+50+im_width*5, track.scale),
       )
     )
 
     // Elements front of car and foreground
     let scale = 1
-    for (x = Math.floor(xpos / scale / 20) * 20 - 40; x <= xpos / scale + canvas.width + 60; x+=20) {
+    for (x = Math.floor(player.x / scale / 20) * 20 - 40; x <= player.x / scale + canvas.width + 60; x+=20) {
       let base = .5*Math.sin(x/Math.PI*180) + .5*Math.sin(x/(.5 * Math.PI*180))
       if (base > .9) {
         let base_height = track.fn(x,track.scale) + 10
-        let tree_scale = track.tree_size - (1.0 + Math.sin(x))/4
+        let tree_scale = Math.max(0, track.tree_size - (1.0 + Math.sin(x))/4)
         if (track.tree_style=='pine') {
           let trunk_width = 10*tree_scale
           let trunk_height = 10*tree_scale
           let tree_height = 80*tree_scale
           let tree_width = 40*tree_scale
           ctx.fillStyle = 'hsl(25,95%,25%)'
-          ctx.fillRect(x-xpos/scale, base_height, trunk_width, trunk_height)
+          ctx.fillRect(x-player.x/scale, base_height, trunk_width, trunk_height)
           ctx.beginPath()
-          ctx.moveTo(x-xpos/scale + trunk_width/2, base_height - tree_height)
-          ctx.lineTo(x-xpos/scale + trunk_width/2 + tree_width/2, base_height)
-          ctx.lineTo(x-xpos/scale + trunk_width/2 - tree_width/2, base_height)
+          ctx.moveTo(x-player.x/scale + trunk_width/2, base_height - tree_height)
+          ctx.lineTo(x-player.x/scale + trunk_width/2 + tree_width/2, base_height)
+          ctx.lineTo(x-player.x/scale + trunk_width/2 - tree_width/2, base_height)
           ctx.fillStyle = 'hsl(100,95%,25%)'
           ctx.fill()
         } else {
@@ -230,16 +237,16 @@ function redraw() {
           let trunk_height = 40*tree_scale
           let tree_height = 80*tree_scale
           ctx.fillStyle = 'hsl(25,95%,25%)'
-          ctx.fillRect(x-xpos/scale, base_height, trunk_width, trunk_height)
+          ctx.fillRect(x-player.x/scale, base_height, trunk_width, trunk_height)
           ctx.beginPath()
-          ctx.arc(x-xpos/scale + trunk_width/2, 10+base_height-tree_height/2, tree_height/2, 0, 2*Math.PI)
+          ctx.arc(x-player.x/scale + trunk_width/2, 10+base_height-tree_height/2, tree_height/2, 0, 2*Math.PI)
           ctx.fillStyle = 'hsl(100,95%,25%)'
           ctx.fill()
         }
       }
     }
 
-    xpos += track.speed * 10
+    player.x += track.speed * 10
   }
 
   // Outer border
@@ -322,7 +329,7 @@ document.addEventListener('keydown', e => {
         0, 0,
         im_width*6, im_height*6)
     }
-    xpos = 500 + 5000 * Math.random()
+    player.x = 500 + 5000 * Math.random()
     track = {
       fn: track_mountains,
       scale: .10 + .90 * Math.random(),
