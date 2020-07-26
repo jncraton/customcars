@@ -34,13 +34,6 @@ let color = 0
 let state = 'edit'
 let scale = 1
 
-let player = {
-  x:0,
-  y:0,
-  dx:5,
-  dy:0,
-  m:1200,
-}
 
 const pixel_size = 18
 const im_width = 19
@@ -202,15 +195,7 @@ function redraw() {
     })
 
     // Car
-    ctx.drawImage(car, 50,
-      6 + - im_height*6 + Math.min(
-        track.fn(player.x+50+im_width*1, track.scale),
-        track.fn(player.x+50+im_width*2, track.scale),
-        track.fn(player.x+50+im_width*3, track.scale),
-        track.fn(player.x+50+im_width*4, track.scale),
-        track.fn(player.x+50+im_width*5, track.scale),
-      )
-    )
+    ctx.drawImage(car, 50, player.y + 6 - im_height*6)
 
     // Elements front of car and foreground
     let scale = 1
@@ -248,8 +233,14 @@ function redraw() {
 
     // Physics
     player.dx = player.dx * .99
+    player.dy += 9.8 / 60
     player.x += player.dx
-    player.y += player.yx
+    player.y += player.dy
+    let track_top = track.fn(player.x+50+im_width*6, track.scale)
+    if (track_top < player.y) {
+      player.y = track_top
+      player.dy = 0
+    }
   }
 
   // Outer border
@@ -335,7 +326,15 @@ document.addEventListener('keydown', e => {
         0, 0,
         im_width*6, im_height*6)
     }
-    player.x = 500 + 5000 * Math.random()
+
+    player = {
+      x:500 + 5000 * Math.random(),
+      y:0,
+      dx:5,
+      dy:0,
+      m:1200,
+    }
+    
     track = {
       fn: track_mountains,
       scale: .10 + .90 * Math.random(),
@@ -378,7 +377,7 @@ document.addEventListener('keydown', e => {
     }
 
     console.log(track)
-    
+
     state = 'drive'
   }
 })
