@@ -245,6 +245,9 @@ function redraw() {
     }
 
     if (player.dx < .05 && player.fuel == 0) state = 'edit'
+
+    ctx.fillStyle = 'white'
+    ctx.fillText(player.fuel, 4, 16)
   }
 
   // Outer border
