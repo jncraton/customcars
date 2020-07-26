@@ -208,7 +208,7 @@ function redraw() {
     // Elements front of car and foreground
     let scale = 1
     track.tree_size = 1
-    for (x = Math.floor(xpos / scale / 20) * 20; x <= xpos / scale + canvas.width + 20; x+=20) {
+    for (x = Math.floor(xpos / scale / 20) * 20 - 40; x <= xpos / scale + canvas.width + 60; x+=20) {
       let base = .5*Math.sin(x/Math.PI*180) + .5*Math.sin(x/(.5 * Math.PI*180))
       if (base > .9) {
         let base_height = track.fn(x,track.scale) + 10
