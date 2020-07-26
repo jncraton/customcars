@@ -205,7 +205,7 @@ function redraw() {
       )
     )
 
-    // In front of car and foreground
+    // Elements front of car and foreground
     let scale = 1
     for (x = Math.floor(xpos / scale / 20) * 20; x <= xpos / scale + canvas.width + 20; x+=20) {
       let base = .5*Math.sin(x/Math.PI*180) + .5*Math.sin(x/(.5 * Math.PI*180))
@@ -214,8 +214,8 @@ function redraw() {
         ctx.fillRect(x-xpos/scale, track.fn(x,1), 10, 40)
         ctx.beginPath()
         ctx.moveTo(x-xpos/scale + 5, track.fn(x,1) - 40)
-        ctx.lineTo(x-xpos/scale + 5 + 20, track.fn(x,1) + 20)
-        ctx.lineTo(x-xpos/scale + 5 - 20, track.fn(x,1) + 20)
+        ctx.lineTo(x-xpos/scale + 5 + 20, track.fn(x,1) + 30)
+        ctx.lineTo(x-xpos/scale + 5 - 20, track.fn(x,1) + 30)
         ctx.fillStyle = 'hsl(100,95%,25%)'
         ctx.fill()
       }
