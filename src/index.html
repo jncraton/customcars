@@ -328,7 +328,8 @@ document.addEventListener('keydown', e => {
       scale: .10 + .90 * Math.random(),
       parallax_levels: 3 + Math.floor(Math.random() * 3),
       speed: Math.random(),
-      tree_size: Math.max(0, Math.random() - .5) * 2
+      tree_size: Math.max(0, Math.random() - .5) * 2,
+      tree_style: Math.random() > .5 ? 'pine' : 'deciduous',
     }
     switch (Math.floor(Math.random() * 3)) {
       case 0:
