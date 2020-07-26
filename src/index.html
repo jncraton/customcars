@@ -233,12 +233,14 @@ function redraw() {
 
     // Physics
     player.dx = player.dx * .99
-    player.dy += 9.8 / 60
+    player.dy += 9.8 / 60 / 2
     player.x += player.dx
     player.y += player.dy
-    let track_top = track.fn(player.x+50+im_width*6, track.scale)
+    let track_top = track.fn(player.x+50+im_width*4, track.scale) + 2
     if (track_top < player.y) {
       player.y = track_top
+      let slope = track.fn(player.x+51+im_width*4, track.scale) + 2 - track_top
+      player.dx += player.dy * slope
       player.dy = 0
     }
   }
