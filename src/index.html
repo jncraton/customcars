@@ -207,7 +207,6 @@ function redraw() {
 
     // Elements front of car and foreground
     let scale = 1
-    track.tree_size = 1
     let trunk_width = 10*track.tree_size
     let trunk_height = 10*track.tree_size
     let tree_height = 80*track.tree_size
@@ -316,6 +315,7 @@ document.addEventListener('keydown', e => {
       scale: .10 + .90 * Math.random(),
       parallax_levels: 3 + Math.floor(Math.random() * 3),
       speed: Math.random(),
+      tree_size: Math.max(0, Math.random() - .5) * 2
     }
     switch (Math.floor(Math.random() * 3)) {
       case 0:
@@ -349,9 +349,9 @@ document.addEventListener('keydown', e => {
         track.fg_s = 60
         break;
     }
+
+    console.log(track)
     
-    if (Math.random() > .3) {
-    }
     state = 'drive'
   }
 })
