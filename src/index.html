@@ -319,6 +319,9 @@ document.addEventListener('keydown', e => {
   if (e.key == 2) scale = 2
   if (e.key == 3) scale = 3
   if (e.key == 'Escape') state = 'edit'
+  if (e.key == ' ' && state == 'drive') {
+    player.dx += 5
+  }
   if (e.key == 'd') {
     if (state =='edit') {
       car = document.createElement('canvas')
