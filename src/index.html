@@ -243,6 +243,8 @@ function redraw() {
       player.dx += player.dy * slope
       player.dy = 0
     }
+
+    if (player.dx < .05 && player.fuel == 0) state = 'edit'
   }
 
   // Outer border
@@ -312,7 +314,8 @@ document.addEventListener('keydown', e => {
   if (e.key == 2) scale = 2
   if (e.key == 3) scale = 3
   if (e.key == 'Escape') state = 'edit'
-  if (e.key == ' ' && state == 'drive') {
+  if (e.key == ' ' && state == 'drive' && player.fuel > 0) {
+    player.fuel -= 1
     player.dx += 5
   }
   if (e.key == 'd') {
@@ -335,6 +338,7 @@ document.addEventListener('keydown', e => {
       dx:5,
       dy:0,
       m:1200,
+      fuel:10,
     }
     
     track = {
