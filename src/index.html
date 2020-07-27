@@ -256,6 +256,9 @@ function redraw() {
 
     ctx.fillStyle = 'white'
     ctx.fillText(player.fuel, 4, 16)
+    ;['x','y','dx','dy'].forEach((v,i) => {
+      ctx.fillText(v + ': ' + player[v], 4,32 + i*16)
+    })
   }
 
   // Outer border
