@@ -239,16 +239,17 @@ function redraw() {
     }
 
     // Physics
-    player.dx = player.dx * .995
-    player.dy += 9.8 / 60 / 2
+    player.dx *= .995
+    player.dy += player.ay
     player.x += player.dx
     player.y += player.dy
+    player.angle += .005
     let track_top = track.fn(player.x+50+im_width*4, track.scale) + 2
     if (track_top < player.y) {
       player.y = track_top
       let rise = track.fn(player.x+51+im_width*4, track.scale) + 2 - track_top
-      player.dx += player.dy * rise
-      player.dy = 0
+      player.dx += player.ay * rise
+      player.dy = player.dx * rise
       player.angle = Math.asin(rise)
     }
 
@@ -349,8 +350,9 @@ document.addEventListener('keydown', e => {
     player = {
       x:500 + 5000 * Math.random(),
       y:0,
-      dx:5,
+      dx:0,
       dy:0,
+      ay:9.8 / 60 / 2,
       angle:0,
       m:1200,
       fuel:10,
