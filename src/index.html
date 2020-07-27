@@ -256,7 +256,8 @@ function redraw() {
     if (player.dx < .05 && player.fuel == 0) state = 'edit'
 
     ctx.fillStyle = 'white'
-    ctx.fillText(player.fuel, 4, 16)
+    ctx.font = '16px sans'
+    ctx.fillText('⛽' + player.fuel, 4, 16)
     if (window.debug) {
       ;['x','y','dx','dy'].forEach((v,i) => {
         ctx.fillText(v + ': ' + player[v], 4,32 + i*16)
