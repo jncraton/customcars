@@ -28,7 +28,7 @@ canvas {
 <script>
 const canvas = document.querySelector('canvas')
 const ctx = canvas.getContext('2d')
-ctx.imageSmoothingEnabled = false
+ctx.imageSmoothingEnabled = true
 
 let color = 0
 let state = 'edit'
@@ -195,7 +195,16 @@ function redraw() {
     })
 
     // Car
-    ctx.drawImage(car, 50, player.y + 6 - im_height*6)
+    ctx.save()
+    //ctx.translate(50, Math.floor(player.y + 6 - im_height*6))
+    ctx.translate(
+      im_width/2 * 6 + 50, 
+      im_height/2 * 6 + Math.floor(player.y + 6 - im_height*6)
+    )
+    ctx.rotate(player.angle)
+    //ctx.drawImage(car, -im_height/2 * 6, im_width/2 * 6)
+    ctx.drawImage(car, -im_width/2 * 6, -im_height/2 * 6)
+    ctx.restore()
 
     // Elements front of car and foreground
     let scale = 1
@@ -239,9 +248,10 @@ function redraw() {
     let track_top = track.fn(player.x+50+im_width*4, track.scale) + 2
     if (track_top < player.y) {
       player.y = track_top
-      let slope = track.fn(player.x+51+im_width*4, track.scale) + 2 - track_top
-      player.dx += player.dy * slope
+      let rise = track.fn(player.x+51+im_width*4, track.scale) + 2 - track_top
+      player.dx += player.dy * rise
       player.dy = 0
+      player.angle = Math.asin(rise)
     }
 
     if (player.dx < .05 && player.fuel == 0) state = 'edit'
@@ -340,6 +350,7 @@ document.addEventListener('keydown', e => {
       y:0,
       dx:5,
       dy:0,
+      angle:0,
       m:1200,
       fuel:10,
     }
