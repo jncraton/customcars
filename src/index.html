@@ -196,13 +196,11 @@ function redraw() {
 
     // Car
     ctx.save()
-    //ctx.translate(50, Math.floor(player.y + 6 - im_height*6))
     ctx.translate(
       im_width/2 * 6 + 50, 
       im_height/2 * 6 + Math.floor(player.y + 6 - im_height*6)
     )
     ctx.rotate(player.angle)
-    //ctx.drawImage(car, -im_height/2 * 6, im_width/2 * 6)
     ctx.drawImage(car, -im_width/2 * 6, -im_height/2 * 6)
     ctx.restore()
 
