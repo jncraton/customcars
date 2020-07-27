@@ -257,9 +257,11 @@ function redraw() {
 
     ctx.fillStyle = 'white'
     ctx.fillText(player.fuel, 4, 16)
-    ;['x','y','dx','dy'].forEach((v,i) => {
-      ctx.fillText(v + ': ' + player[v], 4,32 + i*16)
-    })
+    if (window.debug) {
+      ;['x','y','dx','dy'].forEach((v,i) => {
+        ctx.fillText(v + ': ' + player[v], 4,32 + i*16)
+      })
+    }
   }
 
   // Outer border
@@ -325,10 +327,12 @@ canvas.addEventListener('contextmenu', e => {
 })
 
 document.addEventListener('keydown', e => {
+  console.log(e.key)
   if (e.key == 1) scale = 1
   if (e.key == 2) scale = 2
   if (e.key == 3) scale = 3
   if (e.key == 'Escape') state = 'edit'
+  if (e.key == 'F3') window.debug = !window.debug
   if (e.key == ' ' && state == 'drive' && player.fuel > 0) {
     player.fuel -= 1
     player.dx += 5
