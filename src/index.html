@@ -252,8 +252,9 @@ function redraw() {
       player.dy = player.dx * rise
       player.angle = Math.asin(rise)
     }
-
-    if (player.x > next_fuel) {
+ 
+    if (player.x > next_fuel - 50 - im_width/2 * 6) {
+      if (track_top - 36 < player.y) player.fuel+=1
       next_fuel = player.x + 1000
     }
 
@@ -268,8 +269,10 @@ function redraw() {
     // Text
     ctx.fillText('⛽' + player.fuel, 4, 16)
     if (window.debug) {
+      ctx.fillText('next_fuel: ' + next_fuel, 4,32)
+      ctx.fillText('track_top: ' + track_top, 4,48)
       ;['x','y','dx','dy'].forEach((v,i) => {
-        ctx.fillText(v + ': ' + player[v], 4,32 + i*16)
+        ctx.fillText(v + ': ' + player[v], 4,64 + i*16)
       })
     }
   }
