@@ -180,7 +180,7 @@ function redraw() {
       ctx.beginPath()
       ctx.moveTo(0, 100)
       for (x = Math.floor(player.x / scale / 20) * 20; x <= player.x / scale + canvas.width + 20; x+=20) {
-        ctx.lineTo(x-player.x/scale, track.fn(x, track.scale) - offset)
+        ctx.lineTo(x-player.x/scale, track.fn(x+scale**8, track.scale) - offset)
       }
       ctx.lineTo(canvas.width,canvas.height)
       ctx.lineTo(0,canvas.height)
