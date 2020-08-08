@@ -349,6 +349,7 @@ function setPixel(e) {
       location.hash = pixels.join('')
     }
   }
+  if (color >= unlocked) color = 0
 }
 
 canvas.addEventListener('click', setPixel)
