@@ -268,13 +268,20 @@ function redraw() {
       
     // Text
     ctx.fillText('⛽' + player.fuel, 4, 16)
-    if (player.x < 10000) {
-      ctx.fillText('🔓' + parseInt(10000 - player.x), 4, 32)
+
+    if (player.x > player.next_unlock) {
+      player.next_unlock += 10000
+      player.unlocked += 1
     }
+
+    if (player.x < player.next_unlock) {
+      ctx.fillText('🔓' + parseInt(player.next_unlock - player.x), 4, 32)
+    }
+    
     if (window.debug) {
       ctx.fillText('next_fuel: ' + next_fuel, 4,48)
       ctx.fillText('track_top: ' + track_top, 4,64)
-      ;['x','y','dx','dy'].forEach((v,i) => {
+      ;['x','y','dx','dy','unlocked'].forEach((v,i) => {
         ctx.fillText(v + ': ' + player[v], 4,80 + i*16)
       })
     }
@@ -376,6 +383,8 @@ document.addEventListener('keydown', e => {
       angle:0,
       m:1200,
       fuel:10,
+      next_unlock:10000,
+      unlocked:2,
     }
 
     next_fuel = player.x + 1000
