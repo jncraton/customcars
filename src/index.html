@@ -146,6 +146,8 @@ function redraw() {
             pixel_size,
             pixel_size,
           )
+        } else {
+          ctx.strokeText("🔒", 4, 12 + i * pixel_size)
         }
         ctx.strokeRect(
           .5,
@@ -161,6 +163,8 @@ function redraw() {
             pixel_size,
             pixel_size,
           )
+        } else {
+          ctx.strokeText("🔒", (i - 9) * pixel_size + 4, canvas.height - pixel_size + 12)
         }
         ctx.strokeRect(
           .5 + (i - 9) * pixel_size,
