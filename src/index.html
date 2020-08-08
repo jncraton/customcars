@@ -33,12 +33,11 @@ ctx.imageSmoothingEnabled = true
 let color = 0
 let state = 'edit'
 let scale = 1
-
+let unlocked = 2
 
 const pixel_size = 18
 const im_width = 19
 const im_height = 9
-
 
 let colors = []
 // Transparent
@@ -140,12 +139,14 @@ function redraw() {
       ctx.strokeStyle = 'hsl(0,0%,30%)'
       ctx.lineWidth = 1
       if (i <= 8) {
-        ctx.fillRect(
-          0,
-          0 + i * pixel_size,
-          pixel_size,
-          pixel_size,
-        )
+        if (i < unlocked) {
+          ctx.fillRect(
+            0,
+            0 + i * pixel_size,
+            pixel_size,
+            pixel_size,
+          )
+        }
         ctx.strokeRect(
           .5,
           .5 + i * pixel_size,
@@ -153,12 +154,14 @@ function redraw() {
           pixel_size,
         )
       } else {
-        ctx.fillRect(
-          (i - 9) * pixel_size,
-          canvas.height - pixel_size,
-          pixel_size,
-          pixel_size,
-        )
+        if (i < unlocked) {
+          ctx.fillRect(
+            (i - 9) * pixel_size,
+            canvas.height - pixel_size,
+            pixel_size,
+            pixel_size,
+          )
+        }
         ctx.strokeRect(
           .5 + (i - 9) * pixel_size,
           .5 + canvas.height - pixel_size,
@@ -284,7 +287,7 @@ function redraw() {
 
     if (player.x > player.next_unlock) {
       player.next_unlock += 10000
-      player.unlocked += 1
+      unlocked += 1
       fireworks = {
         x: player.x + 300,
         t: 0,
@@ -298,7 +301,7 @@ function redraw() {
     if (window.debug) {
       ctx.fillText('next_fuel: ' + next_fuel, 4,48)
       ctx.fillText('track_top: ' + track_top, 4,64)
-      ;['x','y','dx','dy','unlocked'].forEach((v,i) => {
+      ;['x','y','dx','dy'].forEach((v,i) => {
         ctx.fillText(v + ': ' + player[v], 4,80 + i*16)
       })
     }
@@ -407,7 +410,6 @@ document.addEventListener('keydown', e => {
       m:1200,
       fuel:10,
       next_unlock:10000,
-      unlocked:2,
     }
 
     next_fuel = player.x + 1000
