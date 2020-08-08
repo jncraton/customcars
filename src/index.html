@@ -268,11 +268,14 @@ function redraw() {
       
     // Text
     ctx.fillText('⛽' + player.fuel, 4, 16)
+    if (player.x < 10000) {
+      ctx.fillText('🔓' + parseInt(10000 - player.x), 4, 32)
+    }
     if (window.debug) {
-      ctx.fillText('next_fuel: ' + next_fuel, 4,32)
-      ctx.fillText('track_top: ' + track_top, 4,48)
+      ctx.fillText('next_fuel: ' + next_fuel, 4,48)
+      ctx.fillText('track_top: ' + track_top, 4,64)
       ;['x','y','dx','dy'].forEach((v,i) => {
-        ctx.fillText(v + ': ' + player[v], 4,64 + i*16)
+        ctx.fillText(v + ': ' + player[v], 4,80 + i*16)
       })
     }
   }
