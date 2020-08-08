@@ -269,9 +269,26 @@ function redraw() {
     // Text
     ctx.fillText('⛽' + player.fuel, 4, 16)
 
+    if (window.fireworks) {
+      [[-15,5],[0,0],[10,-5]].forEach(([xoff,yoff]) => {
+        for (i = 0; i < 360; i+=15) {
+          let x = fireworks.t*Math.cos(i*Math.PI/180) + fireworks.x - player.x
+          let y = fireworks.t*Math.sin(i*Math.PI/180) + 50
+        
+          ctx.fillRect(xoff + x, yoff + y, 2, 2)
+        }
+      })
+      fireworks.t += 1
+      if (fireworks.t > 100) fireworks = false
+    }
+
     if (player.x > player.next_unlock) {
       player.next_unlock += 10000
       player.unlocked += 1
+      fireworks = {
+        x: player.x + 300,
+        t: 0,
+      }
     }
 
     if (player.x < player.next_unlock) {
@@ -354,6 +371,12 @@ document.addEventListener('keydown', e => {
   if (e.key == 1) scale = 1
   if (e.key == 2) scale = 2
   if (e.key == 3) scale = 3
+  if (e.key == 'f') {
+    fireworks = {
+      x: player.x + 300,
+      t: 0,
+    }
+  }
   if (e.key == 'Escape') state = 'edit'
   if (e.key == 'F3') window.debug = !window.debug
   if (e.key == ' ' && state == 'drive' && player.fuel > 0) {
