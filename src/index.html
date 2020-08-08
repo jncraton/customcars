@@ -29,6 +29,7 @@ canvas {
 const canvas = document.querySelector('canvas')
 const ctx = canvas.getContext('2d')
 ctx.imageSmoothingEnabled = true
+ctx.font = '16px sans'
 
 let color = 0
 let state = 'edit'
@@ -147,7 +148,7 @@ function redraw() {
             pixel_size,
           )
         } else {
-          ctx.strokeText("🔒", 4, 12 + i * pixel_size)
+          ctx.strokeText("🔒", 2, 15 + i * pixel_size)
         }
         ctx.strokeRect(
           .5,
@@ -164,7 +165,7 @@ function redraw() {
             pixel_size,
           )
         } else {
-          ctx.strokeText("🔒", (i - 9) * pixel_size + 4, canvas.height - pixel_size + 12)
+          ctx.strokeText("🔒", (i - 9) * pixel_size + 2, canvas.height - pixel_size + 14)
         }
         ctx.strokeRect(
           .5 + (i - 9) * pixel_size,
@@ -268,7 +269,6 @@ function redraw() {
     if (player.dx < .05 && player.fuel == 0) state = 'edit'
 
     ctx.fillStyle = 'white'
-    ctx.font = '16px sans'
 
     // Items
     ctx.fillText('⛽', next_fuel - player.x, track.fn(next_fuel - 16, track.scale))
