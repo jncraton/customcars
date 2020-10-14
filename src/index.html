@@ -65,76 +65,79 @@ function getPixel(x,y) {
   return chars.indexOf(location.hash[1 + im_width*y + x])
 }
 
+function drawCar() {
+  for (x=0; x<im_width; x++) {
+    for (y=0; y<im_height; y++) {
+      if (scale == 2 || scale == 3) {
+        // Scale3x algorith
+        // https://en.wikipedia.org/wiki/Pixel-art_scaling_algorithms
+        let a = getPixel(x-1, y-1)
+        let b = getPixel(x-0, y-1)
+        let c = getPixel(x+1, y-1)
+        let d = getPixel(x-1, y-0)
+        let e = getPixel(x-0, y-0)
+        let f = getPixel(x+1, y-0)
+        let g = getPixel(x-1, y+1)
+        let h = getPixel(x-0, y+1)
+        let i = getPixel(x+1, y+1)
+
+        p = Array(10).fill(e)
+
+        if (d==b && d!=h && b!=f) p[1]=d
+        if ((d==b && d!=h && b!=f && e!=c) || (b==f && b!=d && f!=h && e!=a)) p[2]=b
+        if (b==f && b!=d && f!=h) p[3]=f
+        if ((h==d && h!=f && d!=b && e!=a) || (d==b && d!=h && b!=f && e!=g)) p[4]=d
+        if ((b==f && b!=d && f!=h && e!=i) || (f==h && f!=b && h!=d && e!=c)) p[6]=f
+        if (h==d && h!=f && d!=b) p[7]=d
+        if ((f==h && f!=b && h!=d && e!=g) || (h==d && h!=f && d!=b && e!=i)) p[8]=h
+        if (f==h && f!=b && h!=d) p[9]=f
+
+        if (scale == 2) {
+          let subpixels = [[p[1], p[3]],
+                           [p[7], p[9]]]
+        
+          for (i = 0; i < 2; i++) {
+            for (j = 0; j < 2; j++) {
+              ctx.fillStyle = colors[subpixels[j][i]]
+              ctx.fillRect(
+                1 + (x+1) * pixel_size + i * pixel_size / 2,
+                (y+0) * pixel_size + j * pixel_size / 2,
+                pixel_size / 2,
+                pixel_size / 2,
+              )
+            }
+          }
+        } else if (scale == 3) {
+          for (i = 0; i < 3; i++) {
+            for (j = 0; j < 3; j++) {
+              ctx.fillStyle = colors[p[j*3 + i + 1]]
+              ctx.fillRect(
+                1 + (x+1) * pixel_size + i * pixel_size / 3,
+                (y+0) * pixel_size + j * pixel_size / 3,
+                pixel_size / 3,
+                pixel_size / 3,
+              )
+            }
+          }
+        }
+      } else {
+        ctx.fillStyle = colors[getPixel(x,y)]
+        ctx.fillRect(
+          1 + (x+1) * pixel_size,
+          (y+0) * pixel_size,
+          pixel_size,
+          pixel_size,
+        )
+      }
+    }
+  }
+}
+
 function redraw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 
   if (state=='edit') {
-    for (x=0; x<im_width; x++) {
-      for (y=0; y<im_height; y++) {
-        if (scale == 2 || scale == 3) {
-          // Scale3x algorith
-          // https://en.wikipedia.org/wiki/Pixel-art_scaling_algorithms
-          let a = getPixel(x-1, y-1)
-          let b = getPixel(x-0, y-1)
-          let c = getPixel(x+1, y-1)
-          let d = getPixel(x-1, y-0)
-          let e = getPixel(x-0, y-0)
-          let f = getPixel(x+1, y-0)
-          let g = getPixel(x-1, y+1)
-          let h = getPixel(x-0, y+1)
-          let i = getPixel(x+1, y+1)
-
-          p = Array(10).fill(e)
-
-          if (d==b && d!=h && b!=f) p[1]=d
-          if ((d==b && d!=h && b!=f && e!=c) || (b==f && b!=d && f!=h && e!=a)) p[2]=b
-          if (b==f && b!=d && f!=h) p[3]=f
-          if ((h==d && h!=f && d!=b && e!=a) || (d==b && d!=h && b!=f && e!=g)) p[4]=d
-          if ((b==f && b!=d && f!=h && e!=i) || (f==h && f!=b && h!=d && e!=c)) p[6]=f
-          if (h==d && h!=f && d!=b) p[7]=d
-          if ((f==h && f!=b && h!=d && e!=g) || (h==d && h!=f && d!=b && e!=i)) p[8]=h
-          if (f==h && f!=b && h!=d) p[9]=f
-
-          if (scale == 2) {
-            let subpixels = [[p[1], p[3]],
-                             [p[7], p[9]]]
-          
-            for (i = 0; i < 2; i++) {
-              for (j = 0; j < 2; j++) {
-                ctx.fillStyle = colors[subpixels[j][i]]
-                ctx.fillRect(
-                  1 + (x+1) * pixel_size + i * pixel_size / 2,
-                  (y+0) * pixel_size + j * pixel_size / 2,
-                  pixel_size / 2,
-                  pixel_size / 2,
-                )
-              }
-            }
-          } else if (scale == 3) {
-            for (i = 0; i < 3; i++) {
-              for (j = 0; j < 3; j++) {
-                ctx.fillStyle = colors[p[j*3 + i + 1]]
-                ctx.fillRect(
-                  1 + (x+1) * pixel_size + i * pixel_size / 3,
-                  (y+0) * pixel_size + j * pixel_size / 3,
-                  pixel_size / 3,
-                  pixel_size / 3,
-                )
-              }
-            }
-          }
-        } else {
-          ctx.fillStyle = colors[getPixel(x,y)]
-          ctx.fillRect(
-            1 + (x+1) * pixel_size,
-            (y+0) * pixel_size,
-            pixel_size,
-            pixel_size,
-          )
-        }
-      }
-    }
-
+    drawCar()
     colors.forEach((color, i) => {
       ctx.fillStyle = color
       ctx.strokeStyle = 'hsl(0,0%,30%)'
