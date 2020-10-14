@@ -327,11 +327,15 @@ function redraw() {
 redraw()
 
 function track_mountains(x,scale) {
-  return 120 + 
+  let height = 120 + 
     scale * (15*Math.sin(x/(.17 * Math.PI*180)) +
              30*Math.sin(x/(.13 * Math.PI*180)) +
              15*Math.sin(x/(.07 * Math.PI*180)) +
              5*Math.sin(x/(.03 * Math.PI*180)))
+             
+  if (height < 100) height = 180
+  
+  return height
 }
 
 function getCanvasPos(e) {
