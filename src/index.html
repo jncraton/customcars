@@ -270,6 +270,7 @@ function redraw() {
     }
 
     if (player.dx < .05 && player.fuel == 0) state = 'edit'
+    if (player.y > 175) state = 'edit'
 
     ctx.fillStyle = 'white'
 
